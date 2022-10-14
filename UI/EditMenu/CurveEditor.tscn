@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/EditMenu/CurveEditor.gd" type="Script" id=1]
+
+[node name="CurveEditor" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 240.0
+margin_bottom = 240.0
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+text = "CURVE EDITOR"
+align = 1
+valign = 1
+
+[node name="EndpointContainer" type="HBoxContainer" parent="."]
+
+[node name="Endpoint1" type="VBoxContainer" parent="EndpointContainer"]
+margin_bottom = 4.0
+
+[node name="X1" type="TextEdit" parent="EndpointContainer/Endpoint1"]
+text = "aaaaaa"
+
+[node name="Y1" type="TextEdit" parent="EndpointContainer/Endpoint1"]
+margin_top = 4.0
+margin_bottom = 4.0
+text = "jiodjsidojs"
+
+[node name="Endpoint2" type="VBoxContainer" parent="EndpointContainer"]
+margin_left = 4.0
+margin_right = 4.0
+margin_bottom = 4.0
+
+[node name="X2" type="TextEdit" parent="EndpointContainer/Endpoint2"]
+text = "dsijdsiodjiso"
+
+[node name="Y2" type="TextEdit" parent="EndpointContainer/Endpoint2"]
+margin_top = 4.0
+margin_bottom = 4.0
+text = "dsiodjsiodjs
+"
+
+[node name="Button" type="Button" parent="."]
+margin_top = 26.0
+margin_right = 1264.0
+margin_bottom = 46.0
+text = "Add anchor"
