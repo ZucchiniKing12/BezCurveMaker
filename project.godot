@@ -14,20 +14,24 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BezCurve/BezCurve.gd"
 }, {
-"base": "Control",
-"class": "CurveEditor",
+"base": "Position2D",
+"class": "ControlPoint",
 "language": "GDScript",
-"path": "res://UI/EditMenu/CurveEditor.gd"
+"path": "res://BezCurve/ControlPoint.gd"
 } ]
 _global_script_class_icons={
 "BezCurve": "",
-"CurveEditor": ""
+"ControlPoint": ""
 }
 
 [application]
 
 config/name="BezCurveMaker"
 run/main_scene="res://Main/Main.tscn"
+
+[autoload]
+
+CurveEditor="*res://UI/EditMenu/CurveEditor.tscn"
 
 [physics]
 

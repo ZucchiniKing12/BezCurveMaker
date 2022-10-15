@@ -1,5 +1,8 @@
 extends Node2D
 
+func _ready():
+	add_child(CurveEditor)
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.doubleclick:
