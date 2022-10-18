@@ -8,7 +8,7 @@ var t1 = preload("res://BezCurve/point.png")
 var t2 = preload("res://BezCurve/small_point.png")
 
 func _ready():
-	$Button.connect("button_down", self, 'on_button_down')
+	pass#$Button.connect("button_down", self, 'on_button_down')
 
 func _process(delta):
 	var mouse_coords = get_global_mouse_position()	

@@ -22,3 +22,6 @@ func _ready():
 
 func _text_changed():
 	value = Vector2( float($Values/X.text), float($Values/Y.text) )
+	print(self)
+	print(value)
+	get_parent().update_curve()
