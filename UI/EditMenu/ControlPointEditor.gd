@@ -1,14 +1,17 @@
 extends VBoxContainer
+class_name ControlPointEditor
 
 var is_endpoint: bool = false
+var point_name: String
+var point: ControlPoint
 
-var value := Vector2() setget set_value, get_value
-func set_value(val):
-	value = val
-	$Values/X.text = str(val.x)
-	$Values/Y.text = str(val.y)
-func get_value():
-	return value
+var point_position := Vector2() setget set_point_position, get_point_position
+func set_point_position(pos):
+	point_position = pos
+	$Position/X.text = str(pos.x)
+	$Position/Y.text = str(pos.y)
+func get_point_position():
+	return point_position
 	
 var label_text = 'Point' setget set_label, get_label
 func set_label(text):
@@ -17,11 +20,9 @@ func get_label():
 	return $Label.text
 	
 func _ready():
-	$Values/X.connect("text_changed", self, '_text_changed')
-	$Values/Y.connect("text_changed", self, '_text_changed')
+	$Position/X.connect("text_changed", self, '_text_changed')
+	$Position/Y.connect("text_changed", self, '_text_changed')
 
 func _text_changed():
-	value = Vector2( float($Values/X.text), float($Values/Y.text) )
-	print(self)
-	print(value)
-	get_parent().update_curve()
+	point_position = Vector2( float($Position/X.text), float($Position/Y.text) )
+	point.position = point_position

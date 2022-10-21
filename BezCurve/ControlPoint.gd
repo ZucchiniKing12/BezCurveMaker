@@ -20,11 +20,8 @@ func _process(delta):
 	else:
 		$Sprite.scale = Vector2(1, 1)
 
-
 func dist(a, b):
 	return sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y))
-
-func on_button_down():
-	pass
-
-var editing := false
+	
+func label():
+	return ('Endpoint' if is_endpoint else 'Point')

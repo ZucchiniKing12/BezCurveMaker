@@ -12,18 +12,18 @@ margin_right = 1024.0
 margin_bottom = 14.0
 text = "Point"
 
-[node name="Values" type="HBoxContainer" parent="."]
+[node name="Position" type="HBoxContainer" parent="."]
 margin_top = 18.0
 margin_right = 1024.0
 margin_bottom = 48.0
 
-[node name="X" type="TextEdit" parent="Values"]
+[node name="X" type="TextEdit" parent="Position"]
 margin_right = 510.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 30, 30 )
 size_flags_horizontal = 3
 
-[node name="Y" type="TextEdit" parent="Values"]
+[node name="Y" type="TextEdit" parent="Position"]
 margin_left = 514.0
 margin_right = 1024.0
 margin_bottom = 30.0
