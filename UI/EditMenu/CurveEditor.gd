@@ -7,9 +7,6 @@ func _ready():
 	$DeleteButton.connect('pressed', self, '_on_DeleteButton_pressed')
 	$LenButton.connect('pressed', self, 'printLen')
 
-func printLen():
-	print(current_curve.curve.get_baked_length())
-
 var current_curve
 
 var CPEs: Array
