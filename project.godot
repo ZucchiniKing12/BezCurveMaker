@@ -18,10 +18,22 @@ _global_script_classes=[ {
 "class": "ControlPoint",
 "language": "GDScript",
 "path": "res://BezCurve/ControlPoint.gd"
+}, {
+"base": "VBoxContainer",
+"class": "ControlPointEditor",
+"language": "GDScript",
+"path": "res://UI/EditMenu/ControlPointEditor.gd"
+}, {
+"base": "Node",
+"class": "RenderConfig",
+"language": "GDScript",
+"path": "res://BezCurve/RenderConfig.gd"
 } ]
 _global_script_class_icons={
 "BezCurve": "",
-"ControlPoint": ""
+"ControlPoint": "",
+"ControlPointEditor": "",
+"RenderConfig": ""
 }
 
 [application]
