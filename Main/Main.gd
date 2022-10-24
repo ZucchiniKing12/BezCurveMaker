@@ -20,16 +20,10 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 	newcurve.connect('request_render', self, '_on_request_render')
 	return newcurve
 
-var debugSprite = preload("res://debugSprite.tscn")
-
 func _on_request_render(reason: String, curve: BezCurve):
-	for point in curve.curve.get_baked_points():
-		var t = debugSprite.instance()
-		add_child(t)
-		t.position = point
 	requests.push_back(
 		{ 
-			'points': curve.curve.get_baked_points(), 
+			'points': curve.curve.tessellate(7), 
 			'color': curve.render_config.color,
 			'width': curve.render_config.width
 		})
