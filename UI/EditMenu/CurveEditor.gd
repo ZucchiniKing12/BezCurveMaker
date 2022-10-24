@@ -4,7 +4,11 @@ var PackedCPE = preload("res://UI/EditMenu/ControlPointEditor.tscn")
 
 func _ready():
 	$NewCPEButton.connect('pressed', self, '_on_new_CPEButton_pressed')
-	visible = is_open
+	$DeleteButton.connect('pressed', self, '_on_DeleteButton_pressed')
+	$LenButton.connect('pressed', self, 'printLen')
+
+func printLen():
+	print(current_curve.curve.get_baked_length())
 
 var current_curve
 
@@ -12,16 +16,16 @@ var CPEs: Array
 
 func set_curve(curve):
 	current_curve = curve
-	set_global_position(current_curve.position)
 	update()
 
 func update():
 	if len(CPEs) < len(current_curve.endpoints) + len(current_curve.anchors):
 		if len(CPEs) == 0:
 			for cpoint in current_curve.endpoints:
-				CPEs.push_back(create_CPE(cpoint))
+				create_CPE(cpoint)
 			for cpoint in current_curve.anchors:
-				CPEs.push_back(create_CPE(cpoint))
+				create_CPE(cpoint)
+	current_curve.update_curve2d()
 
 func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
 	var newCPE = PackedCPE.instance()
@@ -29,19 +33,30 @@ func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
 	newCPE.point_position = cpoint.position
 	newCPE.point = cpoint
 	newCPE.label_text = cpoint.label()
+	CPEs.push_back(newCPE)
 	add_child(newCPE)
 	return newCPE
 	
 func _on_new_CPEButton_pressed():
+	if !current_curve:
+		return
 	var newcpoint = current_curve.create_new_cpoint(Vector2(0, 0), false)
 	create_CPE(newcpoint)
+
+func _on_DeleteButton_pressed():
+	if !current_curve:
+		return
+	current_curve.queue_free()
+	close()
 
 var is_open := false
 
 func open():
 	is_open = true
-	visible = true
 
 func close():
 	is_open = false
-	visible = false
+	current_curve = null
+	for n in CPEs:
+		n.queue_free()
+	CPEs = []

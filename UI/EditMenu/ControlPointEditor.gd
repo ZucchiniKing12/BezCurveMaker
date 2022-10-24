@@ -26,3 +26,4 @@ func _ready():
 func _text_changed():
 	point_position = Vector2( float($Position/X.text), float($Position/Y.text) )
 	point.position = point_position
+	CurveEditor.update()
