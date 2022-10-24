@@ -9,7 +9,7 @@ var render_config = RenderConfig.new()
 
 func _ready():
 	$EditButton.connect('pressed', self, 'edit')
-	render_config.color = Color.black
+	render_config.color = Color.blue
 	render_config.width = 10
 	render_config.connect('render_config_changed', self, '_on_render_config_changed')
 	
@@ -55,10 +55,14 @@ func update_button():
 
 func update_curve2d():
 	curve.clear_points()
-	for n in endpoints:
-		curve.add_point(n.position)
-	for n in anchors:
-		curve.add_point(n.position, Vector2(), Vector2(), curve.get_point_count() - 1)
+	if len(anchors) != 2:
+		return
+	curve.add_point(endpoints[0].position, Vector2.ZERO, anchors[0].position - endpoints[0].position)
+	curve.add_point(endpoints[1].position, anchors[1].position - endpoints[1].position, Vector2.ZERO)
+	#for n in len(anchors):
+	#	var prev = endpoints[0] if n == 0 else anchors[n - 1]
+	#	var next = endpoints[1] if n == len(anchors) - 1 else anchors[n + 1]
+	#	curve.add_point(anchors[n].position, anchors[n].position - prev.position, next.position - anchors[n].position, curve.get_point_count() - 1)
 	request_render('curve2d')
 
 signal request_render

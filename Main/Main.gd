@@ -23,7 +23,7 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 func _on_request_render(reason: String, curve: BezCurve):
 	requests.push_back(
 		{ 
-			'points': curve.curve.get_baked_points(), 
+			'points': curve.curve.tessellate(7), 
 			'color': curve.render_config.color,
 			'width': curve.render_config.width
 		})
@@ -34,7 +34,5 @@ var requests := Array()
 func _draw():
 	var req = requests.pop_front()
 	if req:
-		print(req.color)
-		print(req.width)
-		draw_multiline(req.points, req.color, req.width)
+		draw_polyline(req.points, req.color, req.width)
 	
