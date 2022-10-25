@@ -7,7 +7,7 @@ func _ready():
 	
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and event.doubleclick:
+		if event.button_index == BUTTON_LEFT and event.doubleclick and !is_mouse_over_editor():
 			CurveEditor.close()
 			create_new_curve(event.position)
 
@@ -36,3 +36,5 @@ func _draw():
 	if req:
 		draw_polyline(req.points, req.color, req.width)
 	
+func is_mouse_over_editor():
+	return get_global_mouse_position().x >= CurveEditor.rect_global_position.x

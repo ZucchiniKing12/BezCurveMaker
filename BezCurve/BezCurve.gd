@@ -5,6 +5,8 @@ var endpoints: Array
 var anchors: Array
 var curve: Curve2D
 
+var editing: bool
+
 var render_config = RenderConfig.new()
 
 func _ready():
@@ -27,6 +29,7 @@ func initialize(pos: Vector2):
 	curve.add_point(end2.position)
 	request_render('init')
 	update_button()
+	CurveEditor.connect('editor_closed', self, 'on_editor_closed')
 
 var PackedCPoint = preload("res://BezCurve/ControlPoint.tscn")
 	
@@ -34,6 +37,8 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	var newCP = PackedCPoint.instance()
 	newCP.position = pos
 	newCP.is_endpoint = end
+	newCP.parent_curve = self
+	newCP.connect("position_moved", self, "_on_position_moved")
 	if end:
 		newCP.endpoint_index = len(endpoints)
 		endpoints.push_back(newCP)
@@ -41,17 +46,35 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 		anchors.push_back(newCP)
 	$ControlPoints.add_child(newCP)
 	curve.add_point(newCP.position, Vector2(), Vector2(), curve.get_point_count() - 1)
+	update_button()
 	update_curve2d()
 	return newCP
+	
+func _on_position_moved(_name, _new_pos):
+	update_curve2d()
+	update_button()
 
 func edit():
 	CurveEditor.close()
 	CurveEditor.open()
 	CurveEditor.set_curve(self)
+	editing = true
+	
+func on_editor_closed():
+	if editing:
+		editing = false
 
 func update_button():
-	$EditButton.set_position(Vector2(min(endpoints[0].position.x, endpoints[1].position.x), min(endpoints[0].position.y, endpoints[1].position.y)))
-	$EditButton.set_size(Vector2(abs(endpoints[0].position.x - endpoints[1].position.x), abs(endpoints[0].position.y - endpoints[1].position.y)))
+	if len(endpoints) != 2:
+		return
+	var x1 = min(endpoints[0].position.x, endpoints[1].position.x)
+	var x2 = max(endpoints[0].position.x, endpoints[1].position.x)
+	var y1 = min(endpoints[0].position.y, endpoints[1].position.y)
+	var y2 = max(endpoints[0].position.y, endpoints[1].position.y)
+	var w = abs(x2 - x1)
+	var h = abs(y2 - y1)
+	$EditButton.set_position(Vector2(x1, y1))
+	$EditButton.set_size(Vector2(w, h))
 
 func update_curve2d():
 	curve.clear_points()

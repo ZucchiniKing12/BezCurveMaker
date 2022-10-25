@@ -5,13 +5,9 @@ var PackedCPE = preload("res://UI/EditMenu/ControlPointEditor.tscn")
 func _ready():
 	$NewCPEButton.connect('pressed', self, '_on_new_CPEButton_pressed')
 	$DeleteButton.connect('pressed', self, '_on_DeleteButton_pressed')
-	$LenButton.connect('pressed', self, 'printLen')
-
-func printLen():
-	print(current_curve.curve.get_baked_length())
 
 var current_curve
-
+signal editor_closed
 var CPEs: Array
 
 func set_curve(curve):
@@ -20,7 +16,7 @@ func set_curve(curve):
 
 func update():
 	if len(CPEs) < len(current_curve.endpoints) + len(current_curve.anchors):
-		if len(CPEs) == 0:
+		if len(CPEs) == 0 and len(CPEs) < 4:
 			for cpoint in current_curve.endpoints:
 				create_CPE(cpoint)
 			for cpoint in current_curve.anchors:
@@ -60,3 +56,4 @@ func close():
 	for n in CPEs:
 		n.queue_free()
 	CPEs = []
+	emit_signal("editor_closed")
