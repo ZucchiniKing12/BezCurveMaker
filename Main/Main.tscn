@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
+[ext_resource path="res://BezCurve/point.png" type="Texture" id=2]
 
 [node name="Main" type="Node2D"]
 z_index = 108
 script = ExtResource( 1 )
 
 [node name="Curves" type="Node" parent="."]
+
+[node name="Point" type="Sprite" parent="."]
+position = Vector2( 493.5, 277 )
+scale = Vector2( 41.4688, 39.625 )
+z_index = -560
+texture = ExtResource( 2 )

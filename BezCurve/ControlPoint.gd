@@ -17,7 +17,7 @@ func _process(_delta):
 	
 	if editing():
 		position = get_global_mouse_position()
-		emit_signal('position_moved')
+		emit_signal('position_moved', name, position)
 
 func label():
 	return ('Endpoint' if is_endpoint else 'Point')

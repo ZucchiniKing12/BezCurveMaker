@@ -32,9 +32,3 @@ margin_right = 240.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 240, 30 )
 text = "Add new control point"
-
-[node name="LenButton" type="Button" parent="."]
-margin_top = 90.0
-margin_right = 240.0
-margin_bottom = 110.0
-text = "Print length"
