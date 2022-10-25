@@ -3,7 +3,7 @@ extends Node2D
 func _ready():
 	# add the editor as a child so we can see it in the viewport
 	add_child(CurveEditor)
-	CurveEditor.set_position(Vector2(get_viewport().size.x - 300, 0))
+	CurveEditor.set_position(Vector2(0, 0))
 	
 func _input(event):
 	if event is InputEventMouseButton:
@@ -21,7 +21,7 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 	return newcurve
 
 func is_mouse_over_editor():
-	return get_global_mouse_position().x >= CurveEditor.rect_global_position.x
+	return get_global_mouse_position().x <= 240
 
 var render_configs: Dictionary
 

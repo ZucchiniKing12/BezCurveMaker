@@ -38,7 +38,7 @@ func _on_new_CPEButton_pressed():
 		return
 	if !current_curve:
 		return
-	var newcpoint = current_curve.create_new_cpoint(Vector2(0, 0), false)
+	var newcpoint = current_curve.create_new_cpoint(Vector2(260, 20), false)
 	create_CPE(newcpoint)
 
 func _on_DeleteButton_pressed():
