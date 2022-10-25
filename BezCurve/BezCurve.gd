@@ -13,7 +13,9 @@ func _ready():
 	$EditButton.connect('pressed', self, 'edit')
 	render_config.color = Color.blue
 	render_config.width = 10
+	render_config.name = str(OS.get_system_time_msecs())
 	connect('curve2d_updated', render_config, '_on_curve2d_updated')
+	connect('tree_exiting', render_config, '_on_curve_exiting')
 	
 func _process(delta):
 	if len(requests) > 0:

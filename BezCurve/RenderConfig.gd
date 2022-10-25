@@ -1,6 +1,13 @@
 extends Node
 class_name RenderConfig
 
+var active = true
+
+func _on_curve_exiting():
+	request_change('active', true, false)
+	active = false
+	emit_signal("tree_exiting", name)
+
 func _on_curve2d_updated(curve2d: Curve2D):
 	set_points(curve2d.tessellate(6))
 

@@ -23,17 +23,17 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 func is_mouse_over_editor():
 	return get_global_mouse_position().x >= CurveEditor.rect_global_position.x
 
-var render_configs: Array
+var render_configs: Dictionary
 
 func register(curve: BezCurve):
-	render_configs.push_back(curve.render_config)
+	render_configs[curve.render_config.name] = curve.render_config
 	curve.render_config.connect('render_config_changed', self, '_on_render_config_changed')
+	curve.render_config.connect('tree_exiting', self, '_on_config_exiting')
 
 func _on_render_config_changed():
-	print('update')
 	update()
 		
 func _draw():
 	for config in render_configs:
-		var points = config.points
-		draw_polyline(points, config.color, config.width)
+		if render_configs[config].active:
+			draw_polyline(render_configs[config].points, render_configs[config].color, render_configs[config].width)
