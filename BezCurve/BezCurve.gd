@@ -81,11 +81,18 @@ func update_button():
 signal curve2d_updated
 
 func update_curve2d():
-	curve.clear_points()
-	if len(anchors) != 2:
+	if len(endpoints) != 2:
 		return
-	curve.add_point(endpoints[0].position, Vector2.ZERO, anchors[0].position - endpoints[0].position)
-	curve.add_point(endpoints[1].position, anchors[1].position - endpoints[1].position, Vector2.ZERO)
+	curve.clear_points()
+	if len(anchors) == 2:
+		curve.add_point(endpoints[0].position, Vector2.ZERO, anchors[0].position - endpoints[0].position)
+		curve.add_point(endpoints[1].position, anchors[1].position - endpoints[1].position, Vector2.ZERO)
+	if len(anchors) == 1:
+		curve.add_point(endpoints[0].position, Vector2.ZERO, anchors[0].position - endpoints[0].position)
+		curve.add_point(endpoints[1].position, anchors[0].position - endpoints[1].position, Vector2.ZERO)
+	if len(anchors) == 0:
+		curve.add_point(endpoints[0].position, Vector2.ZERO, Vector2.ZERO)
+		curve.add_point(endpoints[1].position, Vector2.ZERO, Vector2.ZERO)
 	emit_signal('curve2d_updated', curve)
 	request_render('curve2d')
 
