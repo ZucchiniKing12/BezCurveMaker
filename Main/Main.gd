@@ -21,7 +21,7 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 	return newcurve
 
 func is_mouse_over_editor():
-	return get_global_mouse_position().x <= 240
+	return get_global_mouse_position().x <= CurveEditor.rect_size.x
 
 var render_configs: Dictionary
 

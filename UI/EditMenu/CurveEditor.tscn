@@ -3,10 +3,9 @@
 [ext_resource path="res://UI/EditMenu/CurveEditor.gd" type="Script" id=1]
 
 [node name="CurveEditor" type="VBoxContainer"]
-anchor_right = 1.0
+anchor_right = 0.234
 anchor_bottom = 1.0
-margin_left = -240.0
-margin_right = -1111.0
+margin_right = 0.383987
 margin_bottom = -514.0
 script = ExtResource( 1 )
 
