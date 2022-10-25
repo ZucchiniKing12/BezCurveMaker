@@ -1,6 +1,14 @@
 extends Node
 class_name RenderConfig
 
+func _on_curve2d_updated(curve2d: Curve2D):
+	set_points(curve2d.tessellate(6))
+
+var points: PoolVector2Array setget set_points
+func set_points(p: PoolVector2Array):
+	request_change('points', p, points)
+	points = p
+
 var color: Color setget set_color
 func set_color(c: Color):
 	request_change('color', c, color)
@@ -13,17 +21,7 @@ func set_width(w):
 
 var requests := Array()
 
-func request_change(type, new, old):
-	requests.push_back(
-		{
-			'type': type,
-			'new': new,
-			'old': old
-		})
+signal render_config_changed
 
-func _process(delta):
-	var req = requests.pop_front()
-	change_render_config(req)
-	
-func change_render_config(change):
-	emit_signal("render_config_changed", { 'type': change.type, 'new': change.new, 'old': change.old})
+func request_change(type, new, old):
+	emit_signal('render_config_changed')
