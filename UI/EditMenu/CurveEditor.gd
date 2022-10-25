@@ -8,7 +8,7 @@ func _ready():
 	$LenButton.connect('pressed', self, 'printLen')
 
 var current_curve
-
+signal editor_closed
 var CPEs: Array
 
 func set_curve(curve):
@@ -57,3 +57,4 @@ func close():
 	for n in CPEs:
 		n.queue_free()
 	CPEs = []
+	emit_signal("editor_closed")
