@@ -17,24 +17,23 @@ func create_new_curve(pos: Vector2) -> BezCurve:
 	var newcurve = PackedBezcurve.instance()
 	newcurve.initialize(pos)
 	$Curves.add_child(newcurve)
-	newcurve.connect('request_render', self, '_on_request_render')
+	register(newcurve)
 	return newcurve
 
-func _on_request_render(reason: String, curve: BezCurve):
-	requests.push_back(
-		{ 
-			'points': curve.curve.tessellate(7), 
-			'color': curve.render_config.color,
-			'width': curve.render_config.width
-		})
-	update()
-
-var requests := Array()
-
-func _draw():
-	var req = requests.pop_front()
-	if req:
-		draw_polyline(req.points, req.color, req.width)
-	
 func is_mouse_over_editor():
 	return get_global_mouse_position().x >= CurveEditor.rect_global_position.x
+
+var render_configs: Dictionary
+
+func register(curve: BezCurve):
+	render_configs[curve.render_config.name] = curve.render_config
+	curve.render_config.connect('render_config_changed', self, '_on_render_config_changed')
+	curve.render_config.connect('tree_exiting', self, '_on_config_exiting')
+
+func _on_render_config_changed():
+	update()
+		
+func _draw():
+	for config in render_configs:
+		if render_configs[config].active:
+			draw_polyline(render_configs[config].points, render_configs[config].color, render_configs[config].width)
