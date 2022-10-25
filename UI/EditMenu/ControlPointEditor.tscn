@@ -30,7 +30,9 @@ margin_bottom = 30.0
 size_flags_horizontal = 3
 
 [node name="DeleteButton" type="Button" parent="."]
+visible = false
 margin_top = 52.0
 margin_right = 1024.0
 margin_bottom = 72.0
+disabled = true
 text = "Delete point"
