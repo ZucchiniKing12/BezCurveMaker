@@ -34,6 +34,8 @@ func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
 	return newCPE
 	
 func _on_new_CPEButton_pressed():
+	if len(CPEs) >= 4:
+		return
 	if !current_curve:
 		return
 	var newcpoint = current_curve.create_new_cpoint(Vector2(0, 0), false)
