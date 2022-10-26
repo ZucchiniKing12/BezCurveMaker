@@ -8,6 +8,16 @@ var curve: Curve2D
 var editing: bool
 
 var render_config = RenderConfig.new()
+var color: Color setget set_color, get_color
+func set_color(c):
+	render_config.color = c
+func get_color():
+	return render_config.color
+var width: float setget set_width, get_width
+func set_width(c):
+	render_config.width = c
+func get_width():
+	return render_config.width
 
 func _ready():
 	$EditButton.connect('pressed', self, 'edit')
