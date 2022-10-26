@@ -1,6 +1,13 @@
 extends Node
 class_name RenderConfig
 
+enum RENDER_TYPES {IDLE, HOVER, EDIT}
+
+export var render_type = RENDER_TYPES.IDLE setget set_render_type
+func set_render_type(type):
+	request_change('render_type', type, render_type)
+	render_type = type
+	
 var active = true
 
 func _on_curve_exiting():
@@ -32,3 +39,6 @@ signal render_config_changed
 
 func request_change(_type, _new, _old):
 	emit_signal('render_config_changed')
+
+func _process(_delta):
+	print(render_type)

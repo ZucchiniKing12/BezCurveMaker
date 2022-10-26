@@ -38,6 +38,14 @@ func _on_render_config_changed():
 	update()
 		
 func _draw():
-	for config in render_configs:
-		if render_configs[config].active:
-			draw_polyline(render_configs[config].points, render_configs[config].color, render_configs[config].width)
+	for c in render_configs:
+		var config = render_configs[c]
+		if config.active:
+			var color = config.color
+			if config.render_type == config.RENDER_TYPES.HOVER:
+				color += Color(0.5, 0.5, 0.5, 1)
+			color = clamp_color(color)
+			draw_polyline(config.points, color, config.width)
+
+func clamp_color(color: Color):
+	return Color(min(color.r, 1), min(color.g, 1), min(color.b, 1), min(color.a, 1))
