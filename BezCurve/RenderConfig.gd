@@ -30,5 +30,5 @@ var requests := Array()
 
 signal render_config_changed
 
-func request_change(type, new, old):
+func request_change(_type, _new, _old):
 	emit_signal('render_config_changed')

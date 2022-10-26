@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/EditMenu/CurveEditor.gd" type="Script" id=1]
 [ext_resource path="res://UI/Backcolor.tres" type="StyleBox" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.160784, 0.117647, 0.117647, 1 )
 
 [node name="CurveEditor" type="VBoxContainer"]
 anchor_right = 0.234
@@ -75,3 +78,17 @@ margin_left = 124.0
 margin_right = 244.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 120, 24 )
+
+[node name="HidePointsButton" type="CheckButton" parent="."]
+margin_top = 146.0
+margin_right = 244.0
+margin_bottom = 178.0
+custom_styles/hover = ExtResource( 2 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = ExtResource( 2 )
+custom_styles/disabled = ExtResource( 2 )
+custom_styles/hover_pressed = ExtResource( 2 )
+custom_styles/normal = ExtResource( 2 )
+text = "Hide control points"
+align = 1
+icon_align = 2

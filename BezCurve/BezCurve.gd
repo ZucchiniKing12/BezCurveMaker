@@ -76,6 +76,13 @@ func on_editor_closed():
 	if editing:
 		editing = false
 
+func _on_hide_points(isHiding):
+	$EditButton.visible = !isHiding
+	for point in endpoints:
+		point.get_node('DragButton').visible = !isHiding
+	for point in anchors:
+		point.get_node('DragButton').visible = !isHiding
+
 func update_button():
 	if len(endpoints) != 2:
 		return

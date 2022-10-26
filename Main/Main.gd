@@ -1,9 +1,8 @@
 extends Node2D
 
 func _ready():
-	# add the editor as a child so we can see it in the viewport
-	add_child(CurveEditor)
 	CurveEditor.set_position(Vector2(0, 0))
+	CurveEditor.get_node('HidePointsButton').connect('pressed', self, '_on_hide_points_pressed')
 	
 func _input(event):
 	if event is InputEventMouseButton:
@@ -28,7 +27,12 @@ var render_configs: Dictionary
 func register(curve: BezCurve):
 	render_configs[curve.render_config.name] = curve.render_config
 	curve.render_config.connect('render_config_changed', self, '_on_render_config_changed')
-	curve.render_config.connect('tree_exiting', self, '_on_config_exiting')
+	connect('hide_points', curve, '_on_hide_points')
+
+signal hide_points
+
+func _on_hide_points_pressed():
+	emit_signal('hide_points', CurveEditor.get_node('HidePointsButton').pressed)
 
 func _on_render_config_changed():
 	update()
