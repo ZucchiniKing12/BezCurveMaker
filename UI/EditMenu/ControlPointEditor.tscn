@@ -31,10 +31,18 @@ margin_right = 1024.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 
-[node name="DeleteButton" type="Button" parent="."]
-visible = false
+[node name="Manage" type="HBoxContainer" parent="."]
 margin_top = 52.0
 margin_right = 1024.0
 margin_bottom = 72.0
-disabled = true
+
+[node name="DeleteButton" type="Button" parent="Manage"]
+margin_right = 92.0
+margin_bottom = 20.0
 text = "Delete point"
+
+[node name="DuplicateButton" type="Button" parent="Manage"]
+margin_left = 96.0
+margin_right = 206.0
+margin_bottom = 20.0
+text = "Duplicate point"

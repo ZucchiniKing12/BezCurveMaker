@@ -8,9 +8,14 @@ var parent_curve
 const edit_texture = preload("res://BezCurve/point.png")
 const idle_texture = preload("res://BezCurve/small_point.png")
 
+signal tree_exiting_w_name
+
 func _ready():
 	$DragButton.connect("button_down", self, '_on_button_down')
-	$DragButton.connect("button_up", self, '_on_button_up') 
+	$DragButton.connect("button_up", self, '_on_button_up')
+	
+func _exit_tree():
+	emit_signal('tree_exiting_w_name', self)
 
 func _process(_delta):
 	if editing():

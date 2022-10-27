@@ -14,6 +14,7 @@ var CPEs: Array
 
 func set_curve(curve):
 	current_curve = curve
+	$WidthSet/TextEdit.text = str(current_curve.render_config.width)
 	update()
 
 func update():
@@ -23,6 +24,8 @@ func update():
 				CPEs.push_back(create_CPE(cpoint))
 			for cpoint in current_curve.anchors:
 				CPEs.push_back(create_CPE(cpoint))
+		if len(CPEs) == 4:
+			$NewCPEButton.disabled = true
 	current_curve.update_curve2d()
 
 func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
@@ -31,17 +34,34 @@ func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
 	newCPE.point_position = cpoint.position
 	newCPE.point = cpoint
 	newCPE.label_text = cpoint.label()
+	newCPE.connect('duplicate_point_pressed', self, '_on_duplicate_point_pressed')
+	newCPE.connect('delete_point_pressed', self, '_on_delete_point_pressed')
 	add_child(newCPE)
 	return newCPE
 	
+func _on_duplicate_point_pressed(pos: Vector2):
+	create_new_point(pos)
+
+func _on_delete_point_pressed(CPE):
+	print(CPEs)
+	CPEs.erase(CPE)
+	print(CPEs)
+	CPE.point.queue_free()
+	
+func at_max_points() -> bool:
+	return len(CPEs) >= 4
+	
 func _on_new_CPEButton_pressed():
+	create_new_point(Vector2(260, 20))
+	
+func create_new_point(position):
 	if len(CPEs) >= 4:
 		return
 	if !current_curve:
 		return
-	var newcpoint = current_curve.create_new_cpoint(Vector2(260, 20), false)
+	var newcpoint = current_curve.create_new_cpoint(position, false)
 	CPEs.push_back(create_CPE(newcpoint))
-
+	
 func _on_DeleteButton_pressed():
 	if !current_curve:
 		return
@@ -53,6 +73,7 @@ var is_open := false
 
 func open():
 	is_open = true
+	$NewCPEButton.disabled = false
 
 func close():
 	is_open = false

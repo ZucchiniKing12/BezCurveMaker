@@ -45,7 +45,8 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	newCP.is_endpoint = end
 	newCP.parent_curve = self
 	newCP.connect("position_moved", self, "_on_position_moved")
-	newCP.get_node("DragButton").connect('pressed', self, 'edit')
+	newCP.connect("tree_exiting_w_name", self, "_on_point_exiting")
+	newCP.get_node("DragButton").connect('button_down', self, 'edit')
 	if end:
 		newCP.endpoint_index = len(endpoints)
 		endpoints.push_back(newCP)
@@ -55,6 +56,10 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	curve.add_point(newCP.position, Vector2(), Vector2(), curve.get_point_count() - 1)
 	update_curve2d()
 	return newCP
+	
+func _on_point_exiting(point):
+	update_curve2d()
+	anchors.erase(point)
 	
 func _on_position_moved(_name, _new_pos):
 	update_curve2d()
