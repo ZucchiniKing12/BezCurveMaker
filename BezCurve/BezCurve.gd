@@ -28,20 +28,6 @@ func _ready():
 	connect('curve2d_updated', render_config, '_on_curve2d_updated')
 	connect('tree_exiting', render_config, '_on_curve_exiting')
 	
-func _process(delta):
-	if len(requests) > 0:
-		var latest_req = requests[len(requests) - 1]
-		requests.pop_back()
-	
-	render_config.render_type = render_config.RENDER_TYPES.IDLE
-	
-	for point in endpoints:
-		if point.get_node('DragButton').is_hovered() and !editing:
-			render_config.render_type = render_config.RENDER_TYPES.HOVER
-	for point in anchors:
-		if point.get_node('DragButton').is_hovered() and !editing:
-			render_config.render_type = render_config.RENDER_TYPES.HOVER
-	
 func initialize(pos: Vector2):
 	curve = Curve2D.new()
 	var end1 = create_new_cpoint(pos, true)
@@ -59,7 +45,8 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	newCP.is_endpoint = end
 	newCP.parent_curve = self
 	newCP.connect("position_moved", self, "_on_position_moved")
-	newCP.get_node("DragButton").connect('pressed', self, 'edit')
+	newCP.connect("tree_exiting_w_name", self, "_on_point_exiting")
+	newCP.get_node("DragButton").connect('button_down', self, 'edit')
 	if end:
 		newCP.endpoint_index = len(endpoints)
 		endpoints.push_back(newCP)
@@ -70,6 +57,10 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	update_curve2d()
 	return newCP
 	
+func _on_point_exiting(point):
+	update_curve2d()
+	anchors.erase(point)
+	
 func _on_position_moved(_name, _new_pos):
 	update_curve2d()
 
@@ -78,13 +69,18 @@ func edit():
 	CurveEditor.open()
 	CurveEditor.set_curve(self)
 	editing = true
+	render_config.curve_editing = true
 	
 func on_editor_closed():
 	if editing:
 		editing = false
+		render_config.curve_editing = false
+
+var is_hiding
 
 func _on_hide_points(isHiding):
-	$EditButton.visible = !isHiding
+	is_hiding = isHiding
+	render_config.render_type = render_config.RENDER_TYPES.POINTS_HIDE if isHiding else render_config.RENDER_TYPES.IDLE
 	for point in endpoints:
 		point.get_node('DragButton').visible = !isHiding
 	for point in anchors:
@@ -106,14 +102,26 @@ func update_curve2d():
 		curve.add_point(endpoints[0].position, Vector2.ZERO, Vector2.ZERO)
 		curve.add_point(endpoints[1].position, Vector2.ZERO, Vector2.ZERO)
 	emit_signal('curve2d_updated', curve)
+	render_config.cpoints = endpoints + anchors
 	request_render('curve2d')
-
-signal request_render
 
 var requests: Array
 
 func request_render(reason: String):
 	requests.push_back(reason)
 
-func _on_render_config_changed(change):
+func _on_render_config_changed():
 	request_render('config')
+
+func _process(_delta):
+	render_config.render_type = render_config.RENDER_TYPES.IDLE
+	
+	for point in endpoints:
+		if point.get_node('DragButton').is_hovered() and !editing:
+			render_config.render_type = render_config.RENDER_TYPES.HOVER
+	for point in anchors:
+		if point.get_node('DragButton').is_hovered() and !editing:
+			render_config.render_type = render_config.RENDER_TYPES.HOVER
+	
+	if is_hiding:
+		render_config.render_type = render_config.RENDER_TYPES.POINTS_HIDE

@@ -13,6 +13,14 @@ func _on_position_moved(_name, _new_pos):
 	$Position/X.text = str(_new_pos.x)
 	$Position/Y.text = str(_new_pos.y)
 
+func _draw():
+	if is_endpoint:
+		$Manage/DeleteButton.disabled = true
+	if CurveEditor.at_max_points():
+		$Manage/DuplicateButton.disabled = true
+	else:
+		$Manage/DuplicateButton.disabled = false
+		
 var point_position := Vector2() setget set_point_position, get_point_position
 func set_point_position(pos):
 	point_position = pos
@@ -30,8 +38,22 @@ func get_label():
 func _ready():
 	$Position/X.connect("text_changed", self, '_text_changed')
 	$Position/Y.connect("text_changed", self, '_text_changed')
+	$Manage/DuplicateButton.connect('pressed', self, '_on_duplicateButton_pressed')
+	$Manage/DeleteButton.connect('pressed', self, '_on_deleteButton_pressed')
+
+signal duplicate_point_pressed
+
+func _on_duplicateButton_pressed():
+	emit_signal('duplicate_point_pressed', point.position)
 
 func _text_changed():
 	point_position = Vector2( float($Position/X.text), float($Position/Y.text) )
 	point.position = point_position
 	CurveEditor.update()
+
+signal delete_point_pressed
+
+func _on_deleteButton_pressed():
+	if is_endpoint:
+		return
+	emit_signal('delete_point_pressed', self)
