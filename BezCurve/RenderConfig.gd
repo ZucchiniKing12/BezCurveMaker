@@ -1,7 +1,7 @@
 extends Node
 class_name RenderConfig
 
-enum RENDER_TYPES {IDLE, HOVER, EDIT}
+enum RENDER_TYPES {IDLE, HOVER, POINTS_HIDE}
 
 export var curve_editing = false setget set_curve_editing
 func set_curve_editing(ce):
@@ -34,11 +34,16 @@ var color: Color setget set_color
 func set_color(c: Color):
 	request_change()
 	color = c
-	
+
 var width: float setget set_width
 func set_width(w):
 	request_change()
 	width = w
+
+var cpoints: Array setget set_cpoints
+func set_cpoints(cps: Array):
+	request_change()
+	cpoints = cps
 
 var requests := Array()
 

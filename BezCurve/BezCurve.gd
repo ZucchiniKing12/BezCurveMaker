@@ -76,8 +76,11 @@ func on_editor_closed():
 		editing = false
 		render_config.curve_editing = false
 
+var is_hiding
+
 func _on_hide_points(isHiding):
-	$EditButton.visible = !isHiding
+	is_hiding = isHiding
+	render_config.render_type = render_config.RENDER_TYPES.POINTS_HIDE if isHiding else render_config.RENDER_TYPES.IDLE
 	for point in endpoints:
 		point.get_node('DragButton').visible = !isHiding
 	for point in anchors:
@@ -99,6 +102,7 @@ func update_curve2d():
 		curve.add_point(endpoints[0].position, Vector2.ZERO, Vector2.ZERO)
 		curve.add_point(endpoints[1].position, Vector2.ZERO, Vector2.ZERO)
 	emit_signal('curve2d_updated', curve)
+	render_config.cpoints = endpoints + anchors
 	request_render('curve2d')
 
 var requests: Array
@@ -118,3 +122,6 @@ func _process(_delta):
 	for point in anchors:
 		if point.get_node('DragButton').is_hovered() and !editing:
 			render_config.render_type = render_config.RENDER_TYPES.HOVER
+	
+	if is_hiding:
+		render_config.render_type = render_config.RENDER_TYPES.POINTS_HIDE

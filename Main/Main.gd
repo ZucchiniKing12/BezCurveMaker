@@ -40,6 +40,8 @@ func _on_hide_points_pressed():
 func _on_render_config_changed():
 	update()
 		
+enum RENDER_TYPES {IDLE, HOVER, POINTS_HIDE}
+
 func _draw():
 	for c in render_configs:
 		var config = render_configs[c]
@@ -58,12 +60,18 @@ func _draw():
 			color = clamp_color(color)
 			
 			draw_polyline(points, color, config.width)
-			var rad = config.width * 1.5 if config.curve_editing else config.width * 0.5
-			draw_circle(points[0], rad, color)
-			draw_circle(points[len(points) - 1], rad, color)
-			if config.curve_editing:
-				draw_circle(points[0], rad * 0.5, lighten(color))
-				draw_circle(points[len(points) - 1], rad * 0.5, lighten(color))
+			for cpoint in config.cpoints:
+				draw_point(cpoint.position, config.curve_editing, color, config.width, config.render_type)
+
+func draw_point(position: Vector2, is_editing: bool, color: Color, base_rad: float, render_type: int):
+	print(render_type)
+	if render_type == RENDER_TYPES.POINTS_HIDE:
+		return
+	var rad = base_rad * 1.5 if is_editing else base_rad * 0.5
+	draw_circle(position, rad, color)
+	if is_editing:
+		draw_circle(position, rad * 0.5, lighten(color))
+	
 
 func lighten(color: Color):
 	var r = min(1, 0.5 * color.r + 0.5)
