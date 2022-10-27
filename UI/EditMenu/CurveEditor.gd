@@ -20,9 +20,9 @@ func update():
 	if len(CPEs) < len(current_curve.endpoints) + len(current_curve.anchors):
 		if len(CPEs) == 0 and len(CPEs) < 4:
 			for cpoint in current_curve.endpoints:
-				create_CPE(cpoint)
+				CPEs.push_back(create_CPE(cpoint))
 			for cpoint in current_curve.anchors:
-				create_CPE(cpoint)
+				CPEs.push_back(create_CPE(cpoint))
 	current_curve.update_curve2d()
 
 func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
@@ -31,7 +31,6 @@ func create_CPE(cpoint: ControlPoint) -> ControlPointEditor:
 	newCPE.point_position = cpoint.position
 	newCPE.point = cpoint
 	newCPE.label_text = cpoint.label()
-	CPEs.push_back(newCPE)
 	add_child(newCPE)
 	return newCPE
 	
@@ -41,12 +40,13 @@ func _on_new_CPEButton_pressed():
 	if !current_curve:
 		return
 	var newcpoint = current_curve.create_new_cpoint(Vector2(260, 20), false)
-	create_CPE(newcpoint)
+	CPEs.push_back(create_CPE(newcpoint))
 
 func _on_DeleteButton_pressed():
 	if !current_curve:
 		return
 	current_curve.queue_free()
+	current_curve.render_config.queue_free()
 	close()
 
 var is_open := false
