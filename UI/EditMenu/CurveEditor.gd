@@ -10,6 +10,7 @@ func _ready():
 	$WidthSet/TextEdit.connect("text_changed", self, "_on_WidthChanged")
 
 var current_curve
+var active_curves := []
 signal editor_closed
 var CPEs: Array
 
@@ -64,11 +65,18 @@ func create_new_point(position):
 	CPEs.push_back(create_CPE(newcpoint))
 
 func _on_DeleteButton_pressed():
+	active_curves.erase(current_curve)
 	if !current_curve:
 		return
 	current_curve.queue_free()
 	current_curve.render_config.queue_free()
 	close()
+	if len(active_curves) > 0:
+		active_curves[-1].edit()
+
+func delete_all():
+	while len(active_curves) > 0:
+		_on_DeleteButton_pressed()
 
 var is_open := false
 

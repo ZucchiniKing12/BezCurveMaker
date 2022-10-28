@@ -4,7 +4,7 @@ onready var CURVE_EDITOR = $Panel/CurveEditor
 
 func _ready():
 	CURVE_EDITOR.set_position(Vector2(0, 0))
-	CURVE_EDITOR.get_node('HidePointsButton').connect('pressed', self, '_on_hide_points_pressed')
+	$Panel/CanvasEditor.get_node('DeleteAllPointsButton').connect('pressed', self, '_on_DeleteAllPointsButton_pressed')
 	
 func _input(event):
 	if event is InputEventMouseButton:
@@ -26,21 +26,19 @@ func create_new_curve(pos: Vector2):
 func is_mouse_over_editor():
 	return get_global_mouse_position().x <= CURVE_EDITOR.rect_size.x
 
+func _on_DeleteAllPointsButton_pressed():
+	CURVE_EDITOR.delete_all()
+
 var render_configs: Dictionary
 
 func register(curve: BezCurve):
 	render_configs[curve.render_config.name] = curve.render_config
 	curve.render_config.connect('render_config_changed', self, '_on_render_config_changed')
 	curve.render_config.connect('deactivate', self, '_on_render_config_deactivate')
-	connect('hide_points', curve, '_on_hide_points')
+	CURVE_EDITOR.active_curves.push_back(curve)
 
 func _on_render_config_deactivate(name):
 	render_configs.erase(name)
-
-signal hide_points
-
-func _on_hide_points_pressed():
-	emit_signal('hide_points', CURVE_EDITOR.get_node('HidePointsButton').pressed)
 
 func _on_render_config_changed():
 	update()
@@ -54,6 +52,9 @@ func _on_canvas_changed(new_color):
 	update()
 		
 enum RENDER_TYPES {IDLE, HOVER, POINTS_HIDE}
+
+func show_points():
+	return $Panel/CanvasEditor.get_node("ShowPointsButton").pressed
 
 func _draw():
 	var vpr = get_viewport_rect()
@@ -80,15 +81,20 @@ func _draw():
 			color = clamp_color(color)
 			
 			draw_polyline(points, color, config.width)
+			
 			for cpoint in config.cpoints:
-				draw_point(cpoint.position, config.curve_editing, color, config.width, config.render_type)
+				draw_point(cpoint.position, config.curve_editing, color, config.width, config.render_type, cpoint.is_endpoint)
 
-func draw_point(position: Vector2, is_editing: bool, color: Color, base_rad: float, render_type: int):
+func draw_point(position: Vector2, is_editing: bool, color: Color, base_rad: float, render_type: int, endpoint: bool):
 	if render_type == RENDER_TYPES.POINTS_HIDE:
 		return
-	var rad = base_rad * 1.5 if is_editing else base_rad * 0.5
+	var rad = base_rad * 1.5 if is_editing else base_rad
+	if !show_points():
+		if !endpoint:
+			return
+		rad = base_rad * 0.5
 	draw_circle(position, rad, color)
-	if is_editing:
+	if is_editing and show_points():
 		draw_circle(position, rad * 0.5, lighten(color))
 	
 func lighten(color: Color):
