@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="CanvasEditor" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorSet" type="HBoxContainer" parent="."]
+margin_right = 1024.0

@@ -1,6 +1,8 @@
 extends Node2D
 class_name BezCurve
 
+onready var CURVE_EDITOR: CurveEditor = get_tree().get_root().get_node('Main').get_curve_editor()
+
 var endpoints: Array
 var anchors: Array
 var curve: Curve2D
@@ -35,7 +37,7 @@ func initialize(pos: Vector2):
 	curve.add_point(end1.position)
 	curve.add_point(end2.position)
 	request_render('init')
-	CurveEditor.connect('editor_closed', self, 'on_editor_closed')
+	#CURVE_EDITOR.connect('editor_closed', self, 'on_editor_closed')
 
 var PackedCPoint = preload("res://BezCurve/ControlPoint.tscn")
 	
@@ -58,16 +60,16 @@ func create_new_cpoint(pos: Vector2, end: bool) -> ControlPoint:
 	return newCP
 	
 func _on_point_exiting(point):
-	update_curve2d()
 	anchors.erase(point)
+	update_curve2d()
 	
 func _on_position_moved(_name, _new_pos):
 	update_curve2d()
 
 func edit():
-	CurveEditor.close()
-	CurveEditor.open()
-	CurveEditor.set_curve(self)
+	CURVE_EDITOR.close()
+	CURVE_EDITOR.open()
+	CURVE_EDITOR.set_curve(self)
 	editing = true
 	render_config.curve_editing = true
 	
