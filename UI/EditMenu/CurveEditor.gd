@@ -1,4 +1,5 @@
 extends Control
+class_name CurveEditor
 
 var PackedCPE = preload("res://UI/EditMenu/ControlPointEditor.tscn")
 
@@ -43,10 +44,9 @@ func _on_duplicate_point_pressed(pos: Vector2):
 	create_new_point(pos)
 
 func _on_delete_point_pressed(CPE):
-	print(CPEs)
 	CPEs.erase(CPE)
-	print(CPEs)
 	CPE.point.queue_free()
+	CPE.queue_free()
 	
 func at_max_points() -> bool:
 	return len(CPEs) >= 4
@@ -59,7 +59,7 @@ func create_new_point(position):
 		return
 	if !current_curve:
 		return
-    
+	
 	var newcpoint = current_curve.create_new_cpoint(position, false)
 	CPEs.push_back(create_CPE(newcpoint))
 
@@ -78,7 +78,9 @@ func open():
 
 func close():
 	is_open = false
-	current_curve = null
+	if current_curve:
+		current_curve.render_config.curve_editing = false
+		current_curve = null
 	for n in CPEs:
 		n.queue_free()
 	CPEs = []

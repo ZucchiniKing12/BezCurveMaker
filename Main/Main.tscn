@@ -1,9 +1,32 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
+[ext_resource path="res://UI/EditMenu/CurveEditor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/Panel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/CanvasEditMenu/CanvasEditor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/Panel.gd" type="Script" id=5]
 
 [node name="Main" type="Node2D"]
 z_index = 108
 script = ExtResource( 1 )
 
 [node name="Curves" type="Node" parent="."]
+
+[node name="Panel" parent="." instance=ExtResource( 3 )]
+margin_right = 190.0
+margin_bottom = 20.0
+script = ExtResource( 5 )
+
+[node name="CurveEditor" parent="Panel" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 24.0
+margin_right = 266.0
+margin_bottom = 202.0
+
+[node name="CanvasEditor" parent="Panel" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 206.0
+margin_right = 266.0
+margin_bottom = 230.0

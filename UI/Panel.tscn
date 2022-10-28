@@ -1,0 +1,22 @@
+[gd_scene format=2]
+
+[node name="Panel" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 20.0
+
+[node name="CurveMode" type="Button" parent="Buttons"]
+margin_right = 89.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "Curve Editor"
+
+[node name="CanvasMode" type="Button" parent="Buttons"]
+margin_left = 93.0
+margin_right = 190.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "Canvas Editor"

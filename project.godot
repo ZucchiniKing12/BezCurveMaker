@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/EditMenu/ControlPointEditor.gd"
 }, {
+"base": "Control",
+"class": "CurveEditor",
+"language": "GDScript",
+"path": "res://UI/EditMenu/CurveEditor.gd"
+}, {
 "base": "Node",
 "class": "RenderConfig",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "BezCurve": "",
 "ControlPoint": "",
 "ControlPointEditor": "",
+"CurveEditor": "",
 "RenderConfig": ""
 }
 
@@ -40,10 +46,6 @@ _global_script_class_icons={
 
 config/name="BezCurveMaker"
 run/main_scene="res://Main/Main.tscn"
-
-[autoload]
-
-CurveEditor="*res://UI/EditMenu/CurveEditor.tscn"
 
 [physics]
 

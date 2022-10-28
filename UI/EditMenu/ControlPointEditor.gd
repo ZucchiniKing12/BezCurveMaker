@@ -1,6 +1,8 @@
 extends VBoxContainer
 class_name ControlPointEditor
 
+onready var CURVE_EDITOR = get_tree().get_root().get_node('Main').get_curve_editor()
+
 var is_endpoint: bool = false
 var point_name: String
 var point: ControlPoint setget set_point, get_point
@@ -16,7 +18,7 @@ func _on_position_moved(_name, _new_pos):
 func _draw():
 	if is_endpoint:
 		$Manage/DeleteButton.disabled = true
-	if CurveEditor.at_max_points():
+	if CURVE_EDITOR.at_max_points():
 		$Manage/DuplicateButton.disabled = true
 	else:
 		$Manage/DuplicateButton.disabled = false
@@ -49,7 +51,7 @@ func _on_duplicateButton_pressed():
 func _text_changed():
 	point_position = Vector2( float($Position/X.text), float($Position/Y.text) )
 	point.position = point_position
-	CurveEditor.update()
+	CURVE_EDITOR.update()
 
 signal delete_point_pressed
 

@@ -38,7 +38,7 @@ func set_color(c: Color):
 var width: float setget set_width
 func set_width(w):
 	request_change()
-	width = w
+	width = min(w, 100)
 
 var cpoints: Array setget set_cpoints
 func set_cpoints(cps: Array):
