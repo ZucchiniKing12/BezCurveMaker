@@ -59,7 +59,7 @@ func create_new_point(position):
 		return
 	if !current_curve:
 		return
-    
+	
 	var newcpoint = current_curve.create_new_cpoint(position, false)
 	CPEs.push_back(create_CPE(newcpoint))
 
