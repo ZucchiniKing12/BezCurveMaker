@@ -11,6 +11,5 @@ margin_left = -22.0
 margin_top = -22.0
 margin_right = 22.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 44, 44 )
-icon_align = 1
+rect_min_size = Vector2( 20, 20 )
 script = ExtResource( 3 )

@@ -5,9 +5,6 @@ var is_endpoint = false
 var endpoint_index = -1
 var parent_curve
 
-const edit_texture = preload("res://BezCurve/point.png")
-const idle_texture = preload("res://BezCurve/small_point.png")
-
 signal tree_exiting_w_name
 
 func _ready():
@@ -21,6 +18,9 @@ func _process(_delta):
 	if editing():
 		position = get_global_mouse_position()
 		emit_signal('position_moved', name, position)
+	var button_width = parent_curve.render_config.width * 1.5 + 4
+	$DragButton.rect_position = Vector2(-1 * button_width, -1 * button_width)
+	$DragButton.rect_size = Vector2(2 * button_width, 2 * button_width)
 
 func label():
 	return ('Endpoint' if is_endpoint else 'Point')

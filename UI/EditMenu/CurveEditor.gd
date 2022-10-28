@@ -78,7 +78,9 @@ func open():
 
 func close():
 	is_open = false
-	current_curve = null
+	if current_curve:
+		current_curve.render_config.curve_editing = false
+		current_curve = null
 	for n in CPEs:
 		n.queue_free()
 	CPEs = []

@@ -29,6 +29,7 @@ func _ready():
 	add_child(render_config)
 	connect('curve2d_updated', render_config, '_on_curve2d_updated')
 	connect('tree_exiting', render_config, '_on_curve_exiting')
+	CURVE_EDITOR.connect('editor_closed', self, 'on_editor_closed')
 	
 func initialize(pos: Vector2):
 	curve = Curve2D.new()
@@ -37,7 +38,6 @@ func initialize(pos: Vector2):
 	curve.add_point(end1.position)
 	curve.add_point(end2.position)
 	request_render('init')
-	#CURVE_EDITOR.connect('editor_closed', self, 'on_editor_closed')
 
 var PackedCPoint = preload("res://BezCurve/ControlPoint.tscn")
 	
